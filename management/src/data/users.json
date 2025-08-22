@@ -1,0 +1,255 @@
+[
+  {
+    "id": "adm_001",
+    "firstName": "Ahmad",
+    "lastName": "Mahmoud",
+    "email": "ahmad.mah@gmail.com",
+    "password": "1admin@%",
+    "phone": "+970-598100111"
+  },
+  {
+    "id": "ins_001",
+    "firstName": "Khaled",
+    "lastName": "Mahmoud",
+    "email": "khaled.mah@gmail.com",
+    "password": "1Instr%@",
+    "role": "Instructor",
+    "phone": "+970-598111111"
+  },
+  {
+    "id": "ins_002",
+    "firstName": "Nadia",
+    "lastName": "Ali",
+    "email": "nadia.ali@gmail.com",
+    "password": "2Instr%@",
+    "role": "Instructor",
+    "phone": "+970-598222222"
+  },
+  {
+    "id": "ins_003",
+    "firstName": "Samir",
+    "lastName": "Odeh",
+    "email": "samir.odeh@gmail.com",
+    "password": "3Instr%@",
+    "role": "Instructor",
+    "phone": "+970-598333333"
+  },
+  {
+    "id": "ins_004",
+    "firstName": "Rana",
+    "lastName": "Issa",
+    "email": "rana.issa@gmail.com",
+    "password": "4Instr%@",
+    "role": "Instructor",
+    "phone": "+970-598444444"
+  },
+  {
+    "id": "ins_005",
+    "firstName": "Fadi",
+    "lastName": "Suleiman",
+    "email": "fadi.sulie@gmail.com",
+    "password": "5Instr%@",
+    "role": "Instructor",
+    "phone": "+970-598555555"
+  },
+  {
+  "id": "stu_001",
+  "firstName": "Sara",
+  "lastName": "Khaled",
+  "email": "sara.khaled@gmail.com",
+  "password": "1Stude%@",
+  "role": "Student",
+  "phone": "+970-5991111111",
+  "profileURL": "/students/stu_001"
+  },
+  {
+    "id": "stu_002",
+    "firstName": "Omar",
+    "lastName": "Nasser",
+    "email": "omar.nasser@gmail.com",
+    "password": "2Stude%@",
+    "role": "Student",
+    "phone": "+970-599222222",
+    "profileURL": "/students/stu_002"
+  },
+  {
+    "id": "stu_003",
+    "firstName": "Lina",
+    "lastName": "Hassan",
+    "email": "lina.hass@gmail.com",
+    "password": "3Stude%@",
+    "role": "Student",
+    "phone": "+970-599333333",
+    "profileURL": "/students/stu_003"
+  },
+  {
+    "id": "stu_004",
+    "firstName": "Ahmed",
+    "lastName": "Salem",
+    "email": "ahmed.salem@gmail.com",
+    "password": "4Stude%@",
+    "role": "Student",
+    "phone": "+970-599444444",
+    "profileURL": "/students/stu_004"
+  },
+  {
+    "id": "stu_005",
+    "firstName": "Maya",
+    "lastName": "Ziad",
+    "email": "maya.ziad@gmail.com",
+    "password": "5Stude%@",
+    "role": "Student",
+    "phone": "+970-599555555",
+    "profileURL": "/students/stu_005"
+  },
+  {
+    "id": "stu_006",
+    "firstName": "Yousef",
+    "lastName": "Yamen",
+    "email": "yousef.yamen@gmail.com",
+    "password": "6Stude%@",
+    "role": "Student",
+    "phone": "+970-599666666",
+    "profileURL": "/students/stu_006"
+  },
+  {
+    "id": "stu_007",
+    "firstName": "Dina",
+    "lastName": "Saleh",
+    "email": "dina.saleh@gmail.com",
+    "password": "7Stude%@",
+    "role": "Student",
+    "phone": "+970-599777777",
+    "profileURL": "/students/stu_007"
+  },
+  {
+    "id": "stu_008",
+    "firstName": "Hani",
+    "lastName": "Sharif",
+    "email": "hani.sharif@gmail.com",
+    "password": "8Stude%@",
+    "role": "Student",
+    "phone": "+970-599888888",
+    "profileURL": "/students/stu_008"
+  },
+  {
+    "id": "stu_009",
+    "firstName": "Rasha",
+    "lastName": "Omar",
+    "email": "rasha.omar@gmail.com",
+    "password": "9Stude%@",
+    "role": "Student",
+    "phone": "+970-599999999",
+    "profileURL": "/students/stu_009"
+  },
+  {
+    "id": "stu_010",
+    "firstName": "Karim",
+    "lastName": "Adel",
+    "email": "karim.adel@gmail.com",
+    "password": "10Stude%@",
+    "role": "Student",
+    "phone": "+970-599123456",
+    "profileURL": "/students/stu_010"
+  },
+  {
+    "id": "stu_011",
+    "firstName": "Salma",
+    "lastName": "Hadi",
+    "email": "salma.hadi@example.com",
+    "password": "11Stude%@",
+    "role": "Student",
+    "phone": "+970-599234111",
+    "profileURL": "/students/stu_011"
+  },
+  {
+    "id": "stu_012",
+    "firstName": "Tariq",
+    "lastName": "Sami",
+    "email": "tariq.sami@example.com",
+    "password": "12Stude%@",
+    "role": "Student",
+    "phone": "+970-599234222",
+    "profileURL": "/students/stu_012"
+  },
+  {
+    "id": "stu_013",
+    "firstName": "Aya",
+    "lastName": "Jaber",
+    "email": "aya.jaber@example.com",
+    "password": "13Stude%@",
+    "role": "Student",
+    "phone": "+970-599234333",
+    "profileURL": "/students/stu_013"
+  },
+  {
+    "id": "stu_014",
+    "firstName": "Malek",
+    "lastName": "Issam",
+    "email": "malek.issam@example.com",
+    "password": "14Stude%@",
+    "role": "Student",
+    "phone": "+970-599234444",
+    "profileURL": "/students/stu_014"
+  },
+  {
+    "id": "stu_015",
+    "firstName": "Huda",
+    "lastName": "Rami",
+    "email": "huda.rami@example.com",
+    "password": "15Stude%@",
+    "role": "Student",
+    "phone": "+970-599234555",
+    "profileURL": "/students/stu_015"
+  },
+  {
+    "id": "stu_016",
+    "firstName": "Zain",
+    "lastName": "Othman",
+    "email": "zain.othman@example.com",
+    "password": "16Stude%@",
+    "role": "Student",
+    "phone": "+970-599234666",
+    "profileURL": "/students/stu_016"
+  },
+  {
+    "id": "stu_017",
+    "firstName": "Nour",
+    "lastName": "Adnan",
+    "email": "nour.adnan@example.com",
+    "password": "17Stude%@",
+    "role": "Student",
+    "phone": "+970-599234777",
+    "profileURL": "/students/stu_017"
+  },
+  {
+    "id": "stu_018",
+    "firstName": "Hassan",
+    "lastName": "Bilal",
+    "email": "hassan.bilal@example.com",
+    "password": "18Stude%@",
+    "role": "Student",
+    "phone": "+970-599234888",
+    "profileURL": "/students/stu_018"
+  },
+  {
+    "id": "stu_019",
+    "firstName": "Mona",
+    "lastName": "Karim",
+    "email": "mona.karim@example.com",
+    "password": "19Stude%@",
+    "role": "Student",
+    "phone": "+970-599234999",
+    "profileURL": "/students/stu_019"
+  },
+  {
+    "id": "stu_020",
+    "firstName": "Adel",
+    "lastName": "Yousef",
+    "email": "adel.yousef@example.com",
+    "password": "20Stude%@",
+    "role": "Student",
+    "phone": "+970-599235000",
+    "profileURL": "/students/stu_020"
+  }
+]

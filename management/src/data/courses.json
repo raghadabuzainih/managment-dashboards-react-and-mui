@@ -1,0 +1,72 @@
+[
+  {
+    "id": "crs_001",
+    "title": "React Advanced",
+    "instructorId": "ins_001",
+    "hours": 24,
+    "description": "Advanced patterns with hooks and performance."
+  },
+  {
+    "id": "crs_002",
+    "title": "Node.js Fundamentals",
+    "instructorId": "ins_002",
+    "hours": 30,
+    "description": "Introduction to Node.js, Express, and REST APIs."
+  },
+  {
+    "id": "crs_003",
+    "title": "Database Design",
+    "instructorId": "ins_003",
+    "hours": 20,
+    "description": "Principles of relational database design and normalization."
+  },
+  {
+    "id": "crs_004",
+    "title": "UI/UX Design Basics",
+    "instructorId": "ins_004",
+    "hours": 18,
+    "description": "User-centered design, wireframing, and prototyping."
+  },
+  {
+    "id": "crs_005",
+    "title": "Cybersecurity Essentials",
+    "instructorId": "ins_005",
+    "hours": 25,
+    "description": "Fundamentals of security, encryption, and safe coding practices."
+  },
+  {
+    "id": "crs_006",
+    "title": "Python for Data Science",
+    "instructorId": "ins_001",
+    "hours": 28,
+    "description": "Learn Python basics, NumPy, Pandas, and data visualization."
+  },
+  {
+    "id": "crs_007",
+    "title": "Machine Learning Intro",
+    "instructorId": "ins_002",
+    "hours": 32,
+    "description": "Supervised and unsupervised learning with practical examples."
+  },
+  {
+    "id": "crs_008",
+    "title": "Cloud Computing Basics",
+    "instructorId": "ins_003",
+    "hours": 22,
+    "description": "Introduction to cloud services, virtualization, and deployment models."
+  },
+  {
+    "id": "crs_009",
+    "title": "Web Development with Django",
+    "instructorId": "ins_004",
+    "hours": 26,
+    "description": "Building full-stack applications using Django framework."
+  },
+  {
+    "id": "crs_010",
+    "title": "Agile Project Management",
+    "instructorId": "ins_005",
+    "hours": 16,
+    "description": "Scrum, Kanban, and agile practices for software projects."
+  }
+]

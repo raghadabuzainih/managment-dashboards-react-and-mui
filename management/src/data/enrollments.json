@@ -1,0 +1,194 @@
+[
+  {
+    "id": "enr_001",
+    "studentId": "stu_001",
+    "courseId": "crs_001",
+    "progress": 70
+  },
+  {
+    "id": "enr_002",
+    "studentId": "stu_001",
+    "courseId": "crs_002",
+    "progress": 40
+  },
+  {
+    "id": "enr_003",
+    "studentId": "stu_002",
+    "courseId": "crs_001",
+    "progress": 55
+  },
+  {
+    "id": "enr_004",
+    "studentId": "stu_002",
+    "courseId": "crs_003",
+    "progress": 85
+  },
+  {
+    "id": "enr_005",
+    "studentId": "stu_003",
+    "courseId": "crs_002",
+    "progress": 65
+  },
+  {
+    "id": "enr_006",
+    "studentId": "stu_003",
+    "courseId": "crs_004",
+    "progress": 25
+  },
+  {
+    "id": "enr_007",
+    "studentId": "stu_004",
+    "courseId": "crs_001",
+    "progress": 90
+  },
+  {
+    "id": "enr_008",
+    "studentId": "stu_004",
+    "courseId": "crs_005",
+    "progress": 30
+  },
+  {
+    "id": "enr_009",
+    "studentId": "stu_005",
+    "courseId": "crs_006",
+    "progress": 75
+  },
+  {
+    "id": "enr_010",
+    "studentId": "stu_005",
+    "courseId": "crs_007",
+    "progress": 50
+  },
+  {
+    "id": "enr_011",
+    "studentId": "stu_006",
+    "courseId": "crs_002",
+    "progress": 10
+  },
+  {
+    "id": "enr_012",
+    "studentId": "stu_006",
+    "courseId": "crs_008",
+    "progress": 65
+  },
+  {
+    "id": "enr_013",
+    "studentId": "stu_007",
+    "courseId": "crs_009",
+    "progress": 45
+  },
+  {
+    "id": "enr_014",
+    "studentId": "stu_007",
+    "courseId": "crs_003",
+    "progress": 80
+  },
+  {
+    "id": "enr_015",
+    "studentId": "stu_008",
+    "courseId": "crs_004",
+    "progress": 20
+  },
+  {
+    "id": "enr_016",
+    "studentId": "stu_008",
+    "courseId": "crs_010",
+    "progress": 55
+  },
+  {
+    "id": "enr_017",
+    "studentId": "stu_009",
+    "courseId": "crs_005",
+    "progress": 95
+  },
+  {
+    "id": "enr_018",
+    "studentId": "stu_009",
+    "courseId": "crs_006",
+    "progress": 60
+  },
+  {
+    "id": "enr_019",
+    "studentId": "stu_010",
+    "courseId": "crs_007",
+    "progress": 35
+  },
+  {
+    "id": "enr_020",
+    "studentId": "stu_010",
+    "courseId": "crs_009",
+    "progress": 78
+  },
+  {
+    "id": "enr_021",
+    "studentId": "stu_011",
+    "courseId": "crs_002",
+    "progress": 60
+  },
+  {
+    "id": "enr_022",
+    "studentId": "stu_011",
+    "courseId": "crs_005",
+    "progress": 35
+  },
+  {
+    "id": "enr_023",
+    "studentId": "stu_012",
+    "courseId": "crs_003",
+    "progress": 70
+  },
+  {
+    "id": "enr_024",
+    "studentId": "stu_012",
+    "courseId": "crs_008",
+    "progress": 25
+  },
+  {
+    "id": "enr_025",
+    "studentId": "stu_013",
+    "courseId": "crs_001",
+    "progress": 80
+  },
+  {
+    "id": "enr_026",
+    "studentId": "stu_014",
+    "courseId": "crs_006",
+    "progress": 55
+  },
+  {
+    "id": "enr_027",
+    "studentId": "stu_015",
+    "courseId": "crs_010",
+    "progress": 45
+  },
+  {
+    "id": "enr_028",
+    "studentId": "stu_016",
+    "courseId": "crs_004",
+    "progress": 65
+  },
+  {
+    "id": "enr_029",
+    "studentId": "stu_017",
+    "courseId": "crs_009",
+    "progress": 30
+  },
+  {
+    "id": "enr_030",
+    "studentId": "stu_018",
+    "courseId": "crs_007",
+    "progress": 75
+  },
+  {
+    "id": "enr_031",
+    "studentId": "stu_019",
+    "courseId": "crs_002",
+    "progress": 40
+  },
+  {
+    "id": "enr_032",
+    "studentId": "stu_020",
+    "courseId": "crs_005",
+    "progress": 90
+  }
+]
