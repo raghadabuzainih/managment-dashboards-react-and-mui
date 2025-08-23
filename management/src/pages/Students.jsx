@@ -96,6 +96,7 @@ export const Students = () => {
     //Regular Expressions for testing: 
     const numberRegExp = /^[0-9]+$/
     const englishCharactersOnly = /^[A-Za-z]+$/
+    const englishCharactersAndAcceptedSpaces = /^[A-Za-z\s]+$/
     const englishWithNumsAndSymbols = /^[A-Za-z0-9!@#$%^&*(),.?":{}|<>_\-\s]+$/
     const phoneNumberRegExp = /^\+970-5[69]\d{7}$/
 
@@ -116,7 +117,7 @@ export const Students = () => {
                    .matches(englishCharactersOnly, 'write only english letters'),
         lastName: Yup.string()
                   .required('enter last name')
-                  .matches(englishCharactersOnly, 'write only english letters'),
+                  .matches(englishCharactersAndAcceptedSpaces, 'write only english letters'),
         email: Yup.string()
                .required('enter email')
                .email('enter valid email')
