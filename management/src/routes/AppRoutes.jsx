@@ -3,7 +3,9 @@ import { Login } from '../pages/Login'
 import { Dashboard } from '../pages/Dashboard'
 import {Students} from '../pages/Students'
 import { StudentDetails } from '../pages/StudentDetails'
-import { Coursese } from '../pages/Courses'
+import { Courses } from '../pages/Courses'
+import { Enrollments } from '../pages/Enrollments'
+import { Reports } from '../pages/Reports'
 
 export const AppRoutes = () => {
     return(
@@ -12,7 +14,9 @@ export const AppRoutes = () => {
             <Route path='/' element={<Dashboard />}/>
             <Route path='/students' element={<Students />}/>
             <Route path='/students/:id' element={<StudentDetails />}/>
-            <Route path='/courses' element={<Coursese />}/>
+            <Route path='/courses' element={<Courses />}/>
+            <Route path='/enrollments' element={<Enrollments />}/>
+            <Route path='/reports' element={<Reports />}/>
         </Routes>
     )
 }

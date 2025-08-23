@@ -22,7 +22,7 @@ import * as Yup from 'yup'
 import React from "react"
 import { SuccessOrFailMessage } from "../components/SuccessOrFailMessage"
 
-export const Coursese = () => {
+export const Courses = () => {
     const [allCourses, setAllCourses] = React.useState(localStorage.getItem('courses') ?
                                                     JSON.parse(localStorage.getItem('courses')) : courses)
     const [isEditClicked, setIsEditClicked] = React.useState(false)

@@ -1,5 +1,10 @@
 import React from 'react'
 import users from '../data/users.json'
+//there is a relation between students & enrollments...
+//so any delete on students will affect on enrollments
+//--> add new student or edit not effect because add/edit forms contain info like info in users.json
+//edit/add form don't contain enrollments or courses
+import enrollments from '../data/enrollments.json'
 import Box from '@mui/material/Box'
 import { DataGrid } from '@mui/x-data-grid'
 import { Link } from 'react-router-dom'
@@ -23,6 +28,10 @@ export const Students = () => {
     const [students, setStudents] = React.useState(localStorage.getItem('students') ?
                                                     JSON.parse(localStorage.getItem('students')) :
                                                     users.filter(({role}) => role == 'Student'))
+    //run only the first time
+    if(localStorage.getItem('enrollments') == null){
+        localStorage.setItem('enrollments', JSON.stringify(enrollments))
+    }
     const [isEditClicked, setIsEditClicked] = React.useState(false)
     const [openSuccessEdited, setopenSuccessEdited] = React.useState(false)
     const [openFailedEdited, setopenFailedEdited] = React.useState(false)
@@ -163,15 +172,14 @@ export const Students = () => {
     }
 
     function addNewStudent(values, errors){
-        console.log(errors)
         setIsAddClicked(false)
         if(Object.keys(errors).length > 0){
             setopenFailedAdded(true)
             return
         }
-        let newStudents = [...students, values]
-        localStorage.setItem('students', JSON.stringify(newStudents))
-        setStudents(newStudents)
+        let studentsAfterAddingNewStudent = [...students, values]
+        localStorage.setItem('students', JSON.stringify(studentsAfterAddingNewStudent))
+        setStudents(studentsAfterAddingNewStudent)
         setopenSuccessAdded(true)
     }
     
@@ -183,6 +191,10 @@ export const Students = () => {
     function deleteStudent(){
         const studentsAfterDelete = students.filter(student => student.id != studentId)
         localStorage.setItem('students', JSON.stringify(studentsAfterDelete))
+        const savedEnrollments = JSON.parse(localStorage.getItem('enrollments'))
+        //delete all student enrollments because this student will deleted from students
+        const updatedEnrollments = savedEnrollments.filter(en => en.studentId != studentId)
+        localStorage.setItem('enrollments', JSON.stringify(updatedEnrollments))
         setStudents(studentsAfterDelete)
         setIsDeleteClicked(false)
         setOpenSuccessDeleted(true)

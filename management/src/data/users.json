@@ -5,6 +5,7 @@
     "lastName": "Mahmoud",
     "email": "ahmad.mah@gmail.com",
     "password": "1admin@%",
+    "role": "Admin",
     "phone": "+970-598100111"
   },
   {
