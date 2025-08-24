@@ -235,7 +235,7 @@ export const Courses = () => {
                 open={openSuccessDeleted}
                 onClose={()=> setOpenSuccessDeleted(false)} 
                 severity="success"
-                message="Student deleted successfully"
+                message="Course deleted successfully"
             />
             {/* add dialog */}
             <Dialog open={isAddClicked} onClose={()=> setIsAddClicked(false)}>
@@ -292,7 +292,3 @@ export const Courses = () => {
         </Box>
     )
 }
-
-// لما نحذف طالب باثر عالانرولمنتس ، كورسسز
-// ولما نضيف طالب باثر عاليوزرز
-// ولما نضيف
