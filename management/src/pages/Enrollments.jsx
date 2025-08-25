@@ -22,6 +22,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
+import { DialogForm } from '../components/DialogForm'
 
 export const Enrollments = () => {
     const [savedEnrollments, setSavedEnrollments] = 
@@ -147,42 +148,6 @@ export const Enrollments = () => {
             .test('validProgress', 'must be between 0-100', (value)=> value>=0 && value<=100)
     })
 
-    function addNewEnrollment(values, errors){
-        setIsAddClicked(false) //to close addform dialog
-        if(Object.keys(errors).length > 0){
-            setopenFailedAdded(true)
-            return
-        }
-        let newEnrollment = {
-            id: `enr_${savedEnrollments.length}`,
-            courseId: courseID,
-            ...values
-        }
-        let updatedEnrollments = [...savedEnrollments, newEnrollment]
-        setSavedEnrollments(updatedEnrollments)
-        localStorage.setItem('enrollments', JSON.stringify(updatedEnrollments))
-        setopenSuccessAdded(true)
-    }
-
-    function saveEdit(values, errors){
-        //only progress we can edit
-        setIsEditClicked(false)
-        if(Object.keys(errors).length > 0){
-            setopenFailedEdited(true)
-            return
-        }
-        //get saved info of updated enrollment (not edited)
-        let {id, studentId, courseId} = savedEnrollments.find(({id})=> id == enrollmentId)
-        let updatedEnrollmet = {id, studentId, courseId, progress: values.progress}
-        let updatedEnrollments = savedEnrollments.map(en => {
-            if(en.id == enrollmentId) return updatedEnrollmet
-            return en
-        })
-        setSavedEnrollments(updatedEnrollments)
-        localStorage.setItem('enrollments', JSON.stringify(updatedEnrollments))
-        setopenSuccessEdited(true)
-    }
-
     function deleteEnrollment(){
         setIsDeleteClicked(false) //to close delete dialog
         const updatedEnrollments = savedEnrollments.filter(({id})=> id != enrollmentId)
@@ -194,38 +159,21 @@ export const Enrollments = () => {
     return(
         <Box>
             <List>{enrollmentsMapToCards}</List>
-            <Dialog open={isEditClicked} onClose={()=> setIsEditClicked(false)}>
-                    <DialogTitle>Edit {editedOrDeletedStudentName} Progress</DialogTitle>
-                    <DialogContent sx={{display: 'grid', gap: '2rem'}}>
-                        <Formik
-                            initialValues={initialEditFormValues}
-                            validationSchema={editFormValidationSchema}
-                        >
-                            {({values, touched, errors, handleBlur, handleChange}) => (
-                                <Form>
-                                    {Object.keys(initialEditFormValues).map(fieldName =>
-                                        <Grid key={`course-${fieldName}-input`}>
-                                            <TextField
-                                                name={fieldName}
-                                                label={fieldName}
-                                                variant="outlined"
-                                                value={values[fieldName]}
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                error={touched[fieldName] && Boolean(errors[fieldName])}
-                                                helperText={touched[fieldName] && errors[fieldName]}
-                                            />
-                                        </Grid>
-                                    )}
-                                    <DialogActions>
-                                        <Button type='submit' onClick={()=> saveEdit(values, errors)}>Save</Button>
-                                        <Button onClick={()=> setIsEditClicked(false)}>Cancel</Button>
-                                    </DialogActions>
-                                </Form>
-                            )}
-                        </Formik>
-                    </DialogContent>
-                </Dialog>
+                {/* edit dialog form */}
+                <DialogForm 
+                    formTitle='Edit Enrollment Info'
+                    condition={isEditClicked}
+                    setCondition= {setIsEditClicked}
+                    initialValues={initialEditFormValues}
+                    validationSchema = {editFormValidationSchema}
+                    setSuccessAction ={setopenSuccessEdited}
+                    setFailedAction ={setopenFailedEdited}
+                    array= {savedEnrollments}
+                    arrayName= 'enrollments'
+                    setArray= {setSavedEnrollments}
+                    item= {enrollment}
+                    purpose= 'edit'
+                />
                 {/* successful edit */}
                 <SuccessOrFailMessage
                     open={openSuccessEdited}
@@ -240,45 +188,21 @@ export const Enrollments = () => {
                     severity="error"
                     message="Failed to edit enrollment info"
                 />
-                {/* add dialog */}
-            <Dialog open={isAddClicked} onClose={()=> setIsAddClicked(false)}>
-                <DialogTitle>Add New Student</DialogTitle>
-                <DialogContent>
-                    <Formik 
-                        initialValues={initialAddFormValues} 
-                        validationSchema={addFormValidationSchema}
-                    >
-                        {({values, touched, errors, handleBlur, handleChange}) => (
-                            <Form>
-                                {Object.keys(initialAddFormValues).map(fieldName => 
-                                    //key={fieldName} becaues name of input or field is unique 
-                                    <Grid key={`${fieldName}-input`}>
-                                        <TextField
-                                            name={fieldName}
-                                            label={fieldName}
-                                            variant="outlined"
-                                            //to prevent make successful add with empty values
-                                            autoFocus={true}
-                                            //set value to dynamic value using values state from formik
-                                            //becaues of we assign it to constant value we can't edit on it
-                                            value={values[fieldName]}
-                                            
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            error={touched[fieldName] && Boolean(errors[fieldName])}
-                                            helperText={touched[fieldName] && errors[fieldName]}
-                                        />
-                                    </Grid>  
-                                )}
-                                <DialogActions>
-                                    <Button type='submit' onClick={()=> addNewEnrollment(values, errors)}>Submit</Button>
-                                    <Button onClick={()=> setIsAddClicked(false)}>Cancel</Button>
-                                </DialogActions>
-                            </Form>
-                        )}
-                    </Formik>
-                </DialogContent>
-            </Dialog>
+                {/* add dialog form */}
+                <DialogForm 
+                    formTitle='Add New Enrollment'
+                    condition={isAddClicked}
+                    setCondition= {setIsAddClicked}
+                    initialValues={initialAddFormValues}
+                    validationSchema = {addFormValidationSchema}
+                    setSuccessAction ={setopenSuccessAdded}
+                    setFailedAction ={setopenFailedAdded}
+                    array= {savedEnrollments}
+                    arrayName = 'enrollments'
+                    setArray= {setSavedEnrollments}
+                    courseId ={courseID}
+                    purpose= 'add'
+                />     
             {/* successful add */}
             <SuccessOrFailMessage 
                 open={openSuccessAdded}

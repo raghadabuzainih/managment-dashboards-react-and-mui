@@ -12,15 +12,12 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
-import Grid from "@mui/material/Grid"
-import TextField from "@mui/material/TextField"
-import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import React from "react"
 import { SuccessOrFailMessage } from "../components/SuccessOrFailMessage"
+import { DialogForm } from "../components/DialogForm"
 
 export const Courses = () => {
     const [allCourses, setAllCourses] = React.useState(localStorage.getItem('courses') ?
@@ -47,7 +44,7 @@ export const Courses = () => {
     }
 
     const initialAddFormValues = {
-        id: "",
+        id: `crs_0${allCourses.length+1}`,
         title: "",
         instructorId: "",
         hours: "",
@@ -66,7 +63,7 @@ export const Courses = () => {
             //x != course -> because maybe admin rewrite the same id for the same course & gave it enter unique id
             allCourses.find(x => x.id == value && x != course) == undefined)
             .test('valid', 'it must start by crs_ and 3 numbers', (value)=> 
-            //wanna check if it's unique
+            //check if it's unique
             //assume that id start from crs_001 to crs_999
             value.length == 7 && value.slice(0,4) == 'crs_' && numberRegExp.test(value.slice(4, 7))
             ),
@@ -128,22 +125,6 @@ export const Courses = () => {
         )
     })
 
-    function saveEdit(values, errors){
-        setIsEditClicked(false)
-        if(Object.keys(errors).length > 0){
-            setopenFailedEdited(true)
-            return
-        }
-        let editedCourses = allCourses.map(x => {
-            if(x == course) return values
-            return x
-        })
-        //شغلة انووو الانستركتر اي دي برضو يتحدث باليوزرز
-        localStorage.setItem('courses', JSON.stringify(editedCourses))
-        setopenSuccessEdited(true)
-        setAllCourses(editedCourses)
-    }
-
     function deleteCourse(){
         const coursesAfterDelete = allCourses.filter(course => course.id != courseId)
         localStorage.setItem('courses', JSON.stringify(coursesAfterDelete))
@@ -152,58 +133,27 @@ export const Courses = () => {
         setOpenSuccessDeleted(true)
     }
 
-    function addNewCourse(values, errors){
-        setIsAddClicked(false)
-        if(Object.keys(errors).length > 0){
-            setopenFailedAdded(true)
-            return
-        }
-        let newCourses = [...courses, values]
-        localStorage.setItem('courses', JSON.stringify(newCourses))
-        setAllCourses(newCourses)
-        setopenSuccessAdded(true)
-    }
-
     return(
         <Box>
             {coursesInLists}
             <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
                 <AddIcon />
             </Fab>
-            <Dialog open={isEditClicked} onClose={()=> setIsEditClicked(false)}>
-                <DialogTitle>Edit Course Info</DialogTitle>
-                <DialogContent sx={{display: 'grid', gap: '2rem'}}>
-                    <Formik 
-                        initialValues={initialEditFormValues} 
-                        validationSchema={editFormValidationSchema}
-                    >
-                        {({values, touched, errors, handleBlur, handleChange}) => (
-                            <Form>
-                                {Object.keys(initialEditFormValues).map(fieldName => 
-                                    <Grid key={`course-${fieldName}-input`}>
-                                        <TextField
-                                            name={fieldName}
-                                            label={fieldName}
-                                            variant="outlined"
-                                            //set value to dynamic value using values state from formik
-                                            //becaues of we assign it to constant value we can't edit on it
-                                            value={values[fieldName]}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            error={touched[fieldName] && Boolean(errors[fieldName])}
-                                            helperText={touched[fieldName] && errors[fieldName]}
-                                        />
-                                    </Grid>  
-                                )}
-                                <DialogActions>
-                                    <Button type='submit' onClick={()=> saveEdit(values, errors)}>Save</Button>
-                                    <Button onClick={()=> setIsEditClicked(false)}>Cancel</Button>
-                                </DialogActions>
-                            </Form>
-                        )}
-                    </Formik>
-                </DialogContent>
-            </Dialog>
+            {/* edit dialog form */}
+            <DialogForm 
+                formTitle='Add New Course'
+                condition={isEditClicked}
+                setCondition= {setIsEditClicked}
+                initialValues={initialEditFormValues}
+                validationSchema = {editFormValidationSchema}
+                setSuccessAction ={setopenSuccessEdited}
+                setFailedAction ={setopenFailedEdited}
+                array= {allCourses}
+                arrayName= 'courses'
+                setArray= {setAllCourses}
+                item= {course}
+                purpose= 'edit'
+            />
             {/* successful edit */}
             <SuccessOrFailMessage 
                 open={openSuccessEdited}
@@ -237,44 +187,20 @@ export const Courses = () => {
                 severity="success"
                 message="Course deleted successfully"
             />
-            {/* add dialog */}
-            <Dialog open={isAddClicked} onClose={()=> setIsAddClicked(false)}>
-                <DialogTitle>Add New Student</DialogTitle>
-                <DialogContent>
-                    <Formik 
-                        initialValues={initialAddFormValues} 
-                        validationSchema={addFormValidationSchema}
-                    >
-                        {({values, touched, errors, handleBlur, handleChange}) => (
-                            <Form>
-                                {Object.keys(initialAddFormValues).map(fieldName => 
-                                    //key={fieldName} becaues name of input or field is unique 
-                                    <Grid key={`${fieldName}-input`}>
-                                        <TextField
-                                            name={fieldName}
-                                            label={fieldName}
-                                            variant="outlined"
-                                            //to prevent make successful add with empty values
-                                            autoFocus={true}
-                                            //set value to dynamic value using values state from formik
-                                            //becaues of we assign it to constant value we can't edit on it
-                                            value={values[fieldName]}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            error={touched[fieldName] && Boolean(errors[fieldName])}
-                                            helperText={touched[fieldName] && errors[fieldName]}
-                                        />
-                                    </Grid>  
-                                )}
-                                <DialogActions>
-                                    <Button type='submit' onClick={()=> addNewCourse(values, errors)}>Submit</Button>
-                                    <Button onClick={()=> setIsAddClicked(false)}>Cancel</Button>
-                                </DialogActions>
-                            </Form>
-                        )}
-                    </Formik>
-                </DialogContent>
-            </Dialog>
+            {/* add dialog form */}
+            <DialogForm 
+                formTitle='Edit Course Info'
+                condition={isAddClicked}
+                setCondition= {setIsAddClicked}
+                initialValues={initialAddFormValues}
+                validationSchema = {addFormValidationSchema}
+                setSuccessAction ={setopenSuccessAdded}
+                setFailedAction ={setopenFailedAdded}
+                array= {allCourses}
+                arrayName = 'courses'
+                setArray= {setAllCourses}
+                purpose= 'add'
+            />    
             {/* successful add */}
             <SuccessOrFailMessage 
                 open={openSuccessAdded}
