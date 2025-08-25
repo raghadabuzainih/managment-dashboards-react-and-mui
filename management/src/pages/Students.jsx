@@ -25,10 +25,12 @@ import Grid from '@mui/material/Grid'
 import { SuccessOrFailMessage } from '../components/SuccessOrFailMessage'
 
 export const Students = () => {
-    const [students, setStudents] = React.useState(localStorage.getItem('students') ?
-                                                    JSON.parse(localStorage.getItem('students')) :
-                                                    users.filter(({role}) => role == 'Student'))
-    //run only the first time
+    const [students, setStudents] = 
+        React.useState(localStorage.getItem('students') ?
+        JSON.parse(localStorage.getItem('students')) :
+        users.filter(({role}) => role == 'Student'))
+    
+        //run only the first time
     if(localStorage.getItem('enrollments') == null){
         localStorage.setItem('enrollments', JSON.stringify(enrollments))
     }
