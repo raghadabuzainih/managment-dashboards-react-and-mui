@@ -1,18 +1,24 @@
-import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { Form, Formik, Field, ErrorMessage } from 'formik'
+import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import users from '../data/users.json'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../contexts/AuthContext'
+import { useContext } from 'react'
+import {
+  Container,
+  Typography,
+  Grid,
+  TextField,
+  Button
+} from '@mui/material';
 
 export const Login = () => {
+    const navigate = useNavigate()
+    const {login} = useContext(AuthContext)
     const initialValues = {
         email: '',
         password: ''
     }
-
     const validationSchema = Yup.object({
         email: Yup.string()
                .email('invalid email')
@@ -29,10 +35,15 @@ export const Login = () => {
                   .required('password is required')
     })
 
+    function handleSubmit(values){
+        login(values.email)
+        navigate('/')
+    }
+
     return(
         <Container maxWidth="sm">
             <Typography color='primary' variant='h4' fontWeight="fontWeightBold">Log in</Typography>
-            <Formik initialValues={initialValues} validationSchema={validationSchema}>
+            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 {({touched, errors, handleBlur, handleChange}) => (
                     <Form>
                         <Grid container spacing={2} direction={'column'}>
@@ -54,7 +65,7 @@ export const Login = () => {
                                 error={touched.password && Boolean(errors.password)}
                                 helperText={touched.password && errors.password}
                             />
-                            <Button variant='contained'>Submit</Button>
+                            <Button type='submit' variant='contained'>Submit</Button>
                         </Grid>
                     </Form>
                 )}

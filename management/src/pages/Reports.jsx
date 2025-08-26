@@ -2,9 +2,6 @@ import {Bar} from 'react-chartjs-2'
 import courses from '../data/courses.json'
 import enrollments from '../data/enrollments.json'
 import users from '../data/users.json'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Box from '@mui/material/Box'
 import { 
     Chart as ChartJS, 
     CategoryScale, 
@@ -16,9 +13,16 @@ import {
 } from 'chart.js';
 //every import will put in:
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
-
+import { AuthContext } from '../contexts/AuthContext'
+import { useContext } from 'react'
+import {
+  Card,
+  CardContent,
+  Container
+} from '@mui/material';
 
 export const Reports = () => {
+    const {userEmail} = useContext(AuthContext)
     let savedCourses = localStorage.getItem('courses') ? 
                         JSON.parse(localStorage.getItem('courses')) : courses
     let savedEnrollments = localStorage.getItem('enrollments') ?
@@ -84,20 +88,23 @@ export const Reports = () => {
     }
 
     return(
-        <Box>
-            {/* students/courses */}
-            <Card sx={{width: '50%'}}>
-                <CardContent>
-                    <Bar data={data} options={options} />
-                </CardContent>
-            </Card>
-            {/* courses/instructors */}
-            <Card sx={{width: '50%', justifySelf: 'end'}}>
-                <CardContent>
-                    <Bar data={data2} options={options2} />
-                </CardContent>
-            </Card>
-        </Box>
+        <Container>
+            {userEmail?.role == 'Admin' &&
+            <>
+                {/* students/courses */}
+                <Card sx={{width: '50%'}}>
+                    <CardContent>
+                        <Bar data={data} options={options} />
+                    </CardContent>
+                </Card>
+                {/* courses/instructors */}
+                <Card sx={{width: '50%', justifySelf: 'end'}}>
+                    <CardContent>
+                        <Bar data={data2} options={options2} />
+                    </CardContent>
+                </Card>
+            </>}
+        </Container>
     )
 
 }

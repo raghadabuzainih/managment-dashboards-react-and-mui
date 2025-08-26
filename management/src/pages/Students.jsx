@@ -5,23 +5,27 @@ import users from '../data/users.json'
 //--> add new student or edit not effect because add/edit forms contain info like info in users.json
 //edit/add form don't contain enrollments or courses
 import enrollments from '../data/enrollments.json'
-import Box from '@mui/material/Box'
-import { DataGrid } from '@mui/x-data-grid'
 import { Link } from 'react-router-dom'
-import Button from '@mui/material/Button'
-import EditIcon from '@mui/icons-material/ModeEdit'
-import DeleteIcon from '@mui/icons-material/Delete'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import Fab from '@mui/material/Fab'
-import AddIcon from '@mui/icons-material/Add'
 import * as Yup from 'yup'
 import { DialogForm } from '../components/DialogForm'
 import { SuccessOrFailMessage } from '../components/SuccessOrFailMessage'
+import { AuthContext } from '../contexts/AuthContext'
+import { useContext } from 'react'
+import { DataGrid } from '@mui/x-data-grid'
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Fab,
+  Container
+} from '@mui/material';
+import { ModeEdit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
 
 export const Students = () => {
+    const {userEmail} = useContext(AuthContext)
     const [students, setStudents] = 
         React.useState(localStorage.getItem('students') ?
         JSON.parse(localStorage.getItem('students')) :
@@ -173,99 +177,103 @@ export const Students = () => {
     }
 
     return (
-        <Box>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: 10
-                        }
-                    }
-                }}
-                pageSizeOptions={[10]}   
-                disableRowSelectionOnClick      
-            />
-            {/* edit dialog form */}
-            <DialogForm 
-                formTitle='Edit Student Info'
-                condition={isEditClicked}
-                setCondition= {setIsEditClicked}
-                initialValues={initialEditFormValues}
-                validationSchema = {validationEditFormSchema}
-                setSuccessAction ={setopenSuccessEdited}
-                setFailedAction ={setopenFailedEdited}
-                array= {students}
-                arrayName= 'students'
-                setArray= {setStudents}
-                item= {student}
-                purpose= 'edit'
-            />
-            {/* successful edit */}
-            <SuccessOrFailMessage 
-                open={openSuccessEdited}
-                onClose={()=> setopenSuccessEdited(false)} 
-                severity="success"
-                message="Student Info edited successfully"
-            />
-            {/* failed edit */}
-            <SuccessOrFailMessage 
-                open={openFailedEdited}
-                onClose={()=> setopenFailedEdited(false)} 
-                severity="error"
-                message="Failed to edit student info"
-            />
-            {/* delete dialog */}
-            <Dialog open={isDeleteClicked} onClose={()=> setIsDeleteClicked(false)}>
-                <DialogContent>
-                    <DialogContentText>
-                        Are you sure that you want to delete this student?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={()=> deleteStudent()}>Yes</Button>
-                    <Button onClick={()=> setIsDeleteClicked(false)}>No</Button>
-                </DialogActions>
-            </Dialog>
-            {/* successful delete */}
-            <SuccessOrFailMessage 
-                open={openSuccessDeleted}
-                onClose={()=> setOpenSuccessDeleted(false)} 
-                severity="success"
-                message="Student deleted successfully"
-            />
-            {/* add dialog form */}
-            <DialogForm 
-                formTitle='Add New Student'
-                condition={isAddClicked}
-                setCondition= {setIsAddClicked}
-                initialValues={initialAddFormValues}
-                validationSchema = {validationAddFormSchema}
-                setSuccessAction ={setopenSuccessAdded}
-                setFailedAction ={setopenFailedAdded}
-                array= {students}
-                arrayName = 'students'
-                setArray= {setStudents}
-                purpose= 'add'
-            />
-            {/* successful add */}
-            <SuccessOrFailMessage 
-                open={openSuccessAdded}
-                onClose={()=> setopenSuccessAdded(false)} 
-                severity="success"
-                message="Student added successfully"
-            />
-            {/* failed add */}
-            <SuccessOrFailMessage 
-                open={openFailedAdded}
-                onClose={()=> setopenFailedAdded(false)} 
-                severity="error"
-                message="Failed to add new student"
-            />
-            <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
-                <AddIcon />
-            </Fab>
-        </Box>
+        <Container>
+            {userEmail?.role=='Admin' && 
+                <>
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 10
+                                }
+                            }
+                        }}
+                        pageSizeOptions={[10]}
+                        disableRowSelectionOnClick      
+                    />
+                    {/* edit dialog form */}
+                    <DialogForm
+                        formTitle='Edit Student Info'
+                        condition={isEditClicked}
+                        setCondition= {setIsEditClicked}
+                        initialValues={initialEditFormValues}
+                        validationSchema = {validationEditFormSchema}
+                        setSuccessAction ={setopenSuccessEdited}
+                        setFailedAction ={setopenFailedEdited}
+                        array= {students}
+                        arrayName= 'students'
+                        setArray= {setStudents}
+                        item= {student}
+                        purpose= 'edit'
+                    />
+                    {/* successful edit */}
+                    <SuccessOrFailMessage
+                        open={openSuccessEdited}
+                        onClose={()=> setopenSuccessEdited(false)}
+                        severity="success"
+                        message="Student Info edited successfully"
+                    />
+                    {/* failed edit */}
+                    <SuccessOrFailMessage
+                        open={openFailedEdited}
+                        onClose={()=> setopenFailedEdited(false)}
+                        severity="error"
+                        message="Failed to edit student info"
+                    />
+                    {/* delete dialog */}
+                    <Dialog open={isDeleteClicked} onClose={()=> setIsDeleteClicked(false)}>
+                        <DialogContent>
+                            <DialogContentText>
+                                Are you sure that you want to delete this student?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={()=> deleteStudent()}>Yes</Button>
+                            <Button onClick={()=> setIsDeleteClicked(false)}>No</Button>
+                        </DialogActions>
+                    </Dialog>
+                    {/* successful delete */}
+                    <SuccessOrFailMessage
+                        open={openSuccessDeleted}
+                        onClose={()=> setOpenSuccessDeleted(false)}
+                        severity="success"
+                        message="Student deleted successfully"
+                    />
+                    {/* add dialog form */}
+                    <DialogForm
+                        formTitle='Add New Student'
+                        condition={isAddClicked}
+                        setCondition= {setIsAddClicked}
+                        initialValues={initialAddFormValues}
+                        validationSchema = {validationAddFormSchema}
+                        setSuccessAction ={setopenSuccessAdded}
+                        setFailedAction ={setopenFailedAdded}
+                        array= {students}
+                        arrayName = 'students'
+                        setArray= {setStudents}
+                        purpose= 'add'
+                    />
+                    {/* successful add */}
+                    <SuccessOrFailMessage
+                        open={openSuccessAdded}
+                        onClose={()=> setopenSuccessAdded(false)}
+                        severity="success"
+                        message="Student added successfully"
+                    />
+                    {/* failed add */}
+                    <SuccessOrFailMessage
+                        open={openFailedAdded}
+                        onClose={()=> setopenFailedAdded(false)}
+                        severity="error"
+                        message="Failed to add new student"
+                    />
+                    <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
+                        <AddIcon />
+                    </Fab>
+                </>
+            }
+        </Container>
   )
 }

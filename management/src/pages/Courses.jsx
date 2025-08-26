@@ -1,25 +1,30 @@
-import Accordion from "@mui/material/Accordion"
-import AccordionDetails from "@mui/material/AccordionDetails"
-import AccordionSummary from "@mui/material/AccordionSummary"
-import AccordionActions from "@mui/material/AccordionActions"
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import Typography from "@mui/material/Typography"
-import courses from '../data/courses.json'
-import Button from "@mui/material/Button"
-import users from '../data/users.json'
-import Box from "@mui/material/Box"
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import Fab from '@mui/material/Fab'
-import AddIcon from '@mui/icons-material/Add'
 import * as Yup from 'yup'
 import React from "react"
+import users from '../data/users.json'
+import courses from '../data/courses.json'
 import { SuccessOrFailMessage } from "../components/SuccessOrFailMessage"
 import { DialogForm } from "../components/DialogForm"
+import { useContext } from "react"
+import { AuthContext } from "../contexts/AuthContext"
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  AccordionActions,
+  Typography,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Fab
+} from "@mui/material";
+import { ExpandMore as ExpandMoreIcon, Add as AddIcon } from '@mui/icons-material';
+
 
 export const Courses = () => {
+    const {userEmail}= useContext(AuthContext)
     const [allCourses, setAllCourses] = React.useState(localStorage.getItem('courses') ?
                                                     JSON.parse(localStorage.getItem('courses')) : courses)
     const [isEditClicked, setIsEditClicked] = React.useState(false)
@@ -134,87 +139,90 @@ export const Courses = () => {
     }
 
     return(
-        <Box>
-            {coursesInLists}
-            <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
-                <AddIcon />
-            </Fab>
-            {/* edit dialog form */}
-            <DialogForm 
-                formTitle='Add New Course'
-                condition={isEditClicked}
-                setCondition= {setIsEditClicked}
-                initialValues={initialEditFormValues}
-                validationSchema = {editFormValidationSchema}
-                setSuccessAction ={setopenSuccessEdited}
-                setFailedAction ={setopenFailedEdited}
-                array= {allCourses}
-                arrayName= 'courses'
-                setArray= {setAllCourses}
-                item= {course}
-                purpose= 'edit'
-            />
-            {/* successful edit */}
-            <SuccessOrFailMessage 
-                open={openSuccessEdited}
-                onClose={()=> setopenSuccessEdited(false)} 
-                severity="success"
-                message="Course Info edited successfully"
-            />
-            {/* failed edit */}
-            <SuccessOrFailMessage 
-                open={openFailedEdited}
-                onClose={()=> setopenFailedEdited(false)} 
-                severity="error"
-                message="Failed to edit course info"
-            />
-            {/* delete dialog */}
-            <Dialog open={isDeleteClicked} onClose={()=> setIsDeleteClicked(false)}>
-                <DialogContent>
-                    <DialogContentText>
-                        Are you sure that you want to delete this course?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={()=> deleteCourse()}>Yes</Button>
-                    <Button onClick={()=> setIsDeleteClicked(false)}>No</Button>
-                </DialogActions>
-            </Dialog>
-            {/* successful delete */}
-            <SuccessOrFailMessage 
-                open={openSuccessDeleted}
-                onClose={()=> setOpenSuccessDeleted(false)} 
-                severity="success"
-                message="Course deleted successfully"
-            />
-            {/* add dialog form */}
-            <DialogForm 
-                formTitle='Edit Course Info'
-                condition={isAddClicked}
-                setCondition= {setIsAddClicked}
-                initialValues={initialAddFormValues}
-                validationSchema = {addFormValidationSchema}
-                setSuccessAction ={setopenSuccessAdded}
-                setFailedAction ={setopenFailedAdded}
-                array= {allCourses}
-                arrayName = 'courses'
-                setArray= {setAllCourses}
-                purpose= 'add'
-            />    
-            {/* successful add */}
-            <SuccessOrFailMessage 
-                open={openSuccessAdded}
-                onClose={()=> setopenSuccessAdded(false)} 
-                severity="success"
-                message="Course added successfully"
-            />
-            {/* failed add */}
-            <SuccessOrFailMessage 
-                open={openFailedAdded}
-                onClose={()=> setopenFailedAdded(false)} 
-                severity="error"
-                message="Failed to add new course"
-            />
-        </Box>
+        <Container>
+            {userEmail?.role== 'Admin' && 
+            <>
+                {coursesInLists}
+                <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
+                    <AddIcon />
+                </Fab>
+                {/* edit dialog form */}
+                <DialogForm
+                    formTitle='Add New Course'
+                    condition={isEditClicked}
+                    setCondition= {setIsEditClicked}
+                    initialValues={initialEditFormValues}
+                    validationSchema = {editFormValidationSchema}
+                    setSuccessAction ={setopenSuccessEdited}
+                    setFailedAction ={setopenFailedEdited}
+                    array= {allCourses}
+                    arrayName= 'courses'
+                    setArray= {setAllCourses}
+                    item= {course}
+                    purpose= 'edit'
+                />
+                {/* successful edit */}
+                <SuccessOrFailMessage
+                    open={openSuccessEdited}
+                    onClose={()=> setopenSuccessEdited(false)}
+                    severity="success"
+                    message="Course Info edited successfully"
+                />
+                {/* failed edit */}
+                <SuccessOrFailMessage
+                    open={openFailedEdited}
+                    onClose={()=> setopenFailedEdited(false)}
+                    severity="error"
+                    message="Failed to edit course info"
+                />
+                {/* delete dialog */}
+                <Dialog open={isDeleteClicked} onClose={()=> setIsDeleteClicked(false)}>
+                    <DialogContent>
+                        <DialogContentText>
+                            Are you sure that you want to delete this course?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={()=> deleteCourse()}>Yes</Button>
+                        <Button onClick={()=> setIsDeleteClicked(false)}>No</Button>
+                    </DialogActions>
+                </Dialog>
+                {/* successful delete */}
+                <SuccessOrFailMessage
+                    open={openSuccessDeleted}
+                    onClose={()=> setOpenSuccessDeleted(false)}
+                    severity="success"
+                    message="Course deleted successfully"
+                />
+                {/* add dialog form */}
+                <DialogForm
+                    formTitle='Edit Course Info'
+                    condition={isAddClicked}
+                    setCondition= {setIsAddClicked}
+                    initialValues={initialAddFormValues}
+                    validationSchema = {addFormValidationSchema}
+                    setSuccessAction ={setopenSuccessAdded}
+                    setFailedAction ={setopenFailedAdded}
+                    array= {allCourses}
+                    arrayName = 'courses'
+                    setArray= {setAllCourses}
+                    purpose= 'add'
+                />
+                {/* successful add */}
+                <SuccessOrFailMessage
+                    open={openSuccessAdded}
+                    onClose={()=> setopenSuccessAdded(false)}
+                    severity="success"
+                    message="Course added successfully"
+                />
+                {/* failed add */}
+                <SuccessOrFailMessage
+                    open={openFailedAdded}
+                    onClose={()=> setopenFailedAdded(false)}
+                    severity="error"
+                    message="Failed to add new course"
+                />
+            </>}
+        </Container>
     )
 }

@@ -2,29 +2,31 @@ import enrollments from '../data/enrollments.json'
 import users from '../data/users.json'
 import courses from '../data/courses.json'
 import React from 'react'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CircularProgress from '@mui/material/CircularProgress'
-import CardActions from '@mui/material/CardActions'
-import Typography from '@mui/material/Typography'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Chip from '@mui/material/Chip'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import { Formik, Form } from 'formik'
+import { useContext } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 import * as Yup from 'yup'
-import { SuccessOrFailMessage } from '../components/SuccessOrFailMessage'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
 import { DialogForm } from '../components/DialogForm'
+import { SuccessOrFailMessage } from '../components/SuccessOrFailMessage'
+import {
+    Container,
+    Card,
+    CardContent,
+    CardActions,
+    CircularProgress,
+    Typography,
+    List,
+    ListItem,
+    Grid,
+    Chip,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText
+} from '@mui/material'
 
 export const Enrollments = () => {
+    const {userEmail} = useContext(AuthContext)
     const [savedEnrollments, setSavedEnrollments] = 
         React.useState(localStorage.getItem('enrollments') ?
         JSON.parse(localStorage.getItem('enrollments')) : enrollments)
@@ -157,85 +159,87 @@ export const Enrollments = () => {
     }
     
     return(
-        <Box>
-            <List>{enrollmentsMapToCards}</List>
-                {/* edit dialog form */}
-                <DialogForm 
-                    formTitle='Edit Enrollment Info'
-                    condition={isEditClicked}
-                    setCondition= {setIsEditClicked}
-                    initialValues={initialEditFormValues}
-                    validationSchema = {editFormValidationSchema}
-                    setSuccessAction ={setopenSuccessEdited}
-                    setFailedAction ={setopenFailedEdited}
-                    array= {savedEnrollments}
-                    arrayName= 'enrollments'
-                    setArray= {setSavedEnrollments}
-                    item= {enrollment}
-                    purpose= 'edit'
-                />
-                {/* successful edit */}
+        <Container>
+            {userEmail.role == 'Admin' && <>
+                <List>{enrollmentsMapToCards}</List>
+                    {/* edit dialog form */}
+                    <DialogForm
+                        formTitle='Edit Enrollment Info'
+                        condition={isEditClicked}
+                        setCondition= {setIsEditClicked}
+                        initialValues={initialEditFormValues}
+                        validationSchema = {editFormValidationSchema}
+                        setSuccessAction ={setopenSuccessEdited}
+                        setFailedAction ={setopenFailedEdited}
+                        array= {savedEnrollments}
+                        arrayName= 'enrollments'
+                        setArray= {setSavedEnrollments}
+                        item= {enrollment}
+                        purpose= 'edit'
+                    />
+                    {/* successful edit */}
+                    <SuccessOrFailMessage
+                        open={openSuccessEdited}
+                        onClose={()=> setopenSuccessEdited(false)}
+                        severity="success"
+                        message="Enrollment Info edited successfully"
+                    />
+                    {/* failed edit */}
+                    <SuccessOrFailMessage
+                        open={openFailedEdited}
+                        onClose={()=> setopenFailedEdited(false)}
+                        severity="error"
+                        message="Failed to edit enrollment info"
+                    />
+                    {/* add dialog form */}
+                    <DialogForm
+                        formTitle='Add New Enrollment'
+                        condition={isAddClicked}
+                        setCondition= {setIsAddClicked}
+                        initialValues={initialAddFormValues}
+                        validationSchema = {addFormValidationSchema}
+                        setSuccessAction ={setopenSuccessAdded}
+                        setFailedAction ={setopenFailedAdded}
+                        array= {savedEnrollments}
+                        arrayName = 'enrollments'
+                        setArray= {setSavedEnrollments}
+                        courseId ={courseID}
+                        purpose= 'add'
+                    />
+                {/* successful add */}
                 <SuccessOrFailMessage
-                    open={openSuccessEdited}
-                    onClose={()=> setopenSuccessEdited(false)}
+                    open={openSuccessAdded}
+                    onClose={()=> setopenSuccessAdded(false)}
                     severity="success"
-                    message="Enrollment Info edited successfully"
+                    message="Enrollment added successfully"
                 />
-                {/* failed edit */}
+                {/* failed add */}
                 <SuccessOrFailMessage
-                    open={openFailedEdited}
-                    onClose={()=> setopenFailedEdited(false)}
+                    open={openFailedAdded}
+                    onClose={()=> setopenFailedAdded(false)}
                     severity="error"
-                    message="Failed to edit enrollment info"
+                    message="Failed to add new enrollment"
                 />
-                {/* add dialog form */}
-                <DialogForm 
-                    formTitle='Add New Enrollment'
-                    condition={isAddClicked}
-                    setCondition= {setIsAddClicked}
-                    initialValues={initialAddFormValues}
-                    validationSchema = {addFormValidationSchema}
-                    setSuccessAction ={setopenSuccessAdded}
-                    setFailedAction ={setopenFailedAdded}
-                    array= {savedEnrollments}
-                    arrayName = 'enrollments'
-                    setArray= {setSavedEnrollments}
-                    courseId ={courseID}
-                    purpose= 'add'
-                />     
-            {/* successful add */}
-            <SuccessOrFailMessage 
-                open={openSuccessAdded}
-                onClose={()=> setopenSuccessAdded(false)} 
-                severity="success"
-                message="Enrollment added successfully"
-            />
-            {/* failed add */}
-            <SuccessOrFailMessage 
-                open={openFailedAdded}
-                onClose={()=> setopenFailedAdded(false)} 
-                severity="error"
-                message="Failed to add new enrollment"
-            />
-            {/* delete dialog */}
-            <Dialog open={isDeleteClicked} onClose={()=> setIsDeleteClicked(false)}>
-                <DialogContent>
-                    <DialogContentText>
-                        Are you sure that you want to delete {editedOrDeletedStudentName} enrollment?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={()=> deleteEnrollment()}>Yes</Button>
-                    <Button onClick={()=> setIsDeleteClicked(false)}>No</Button>
-                </DialogActions>
-            </Dialog>
-            {/* successful delete */}
-            <SuccessOrFailMessage 
-                open={openSuccessDeleted}
-                onClose={()=> setOpenSuccessDeleted(false)} 
-                severity="success"
-                message="Enrollment deleted successfully"
-            />
-        </Box>
+                {/* delete dialog */}
+                <Dialog open={isDeleteClicked} onClose={()=> setIsDeleteClicked(false)}>
+                    <DialogContent>
+                        <DialogContentText>
+                            Are you sure that you want to delete {editedOrDeletedStudentName} enrollment?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={()=> deleteEnrollment()}>Yes</Button>
+                        <Button onClick={()=> setIsDeleteClicked(false)}>No</Button>
+                    </DialogActions>
+                </Dialog>
+                {/* successful delete */}
+                <SuccessOrFailMessage
+                    open={openSuccessDeleted}
+                    onClose={()=> setOpenSuccessDeleted(false)}
+                    severity="success"
+                    message="Enrollment deleted successfully"
+                />
+            </>}
+        </Container>
     )
 }

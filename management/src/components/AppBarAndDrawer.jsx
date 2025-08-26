@@ -7,7 +7,7 @@ export const AppBarAndDrawer= () => {
     return <Box>
         <AppBarComp />
         <DrawerComp />
-        <Box marginLeft={'20%'}>
+        <Box>
             <Outlet />
         </Box>
     </Box>

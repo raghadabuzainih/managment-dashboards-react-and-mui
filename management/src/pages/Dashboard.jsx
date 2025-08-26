@@ -1,14 +1,19 @@
 import users from '../data/users.json'
 import enrollments from '../data/enrollments.json'
 import courses from '../data/courses.json'
-import Grid from "@mui/material/Grid"
-import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
-import Typography from "@mui/material/Typography"
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+import { useContext } from "react"
+import { AuthContext } from "../contexts/AuthContext"
+import {
+  Card,
+  CardContent,
+  Typography,
+  List,
+  ListItem,
+  Container
+} from '@mui/material';
 
 export const Dashboard = () => {
+    const {userEmail}= useContext(AuthContext)
     const students = localStorage.getItem('students') ?
         JSON.parse(localStorage.getItem('students')) : users.filter(({role}) => role == 'Student')
     const savedEnrollments = localStorage.getItem('enrollments') ?
@@ -26,9 +31,8 @@ export const Dashboard = () => {
     }
 
     const last_5_students = students.slice(students.length-5, students.length)
-    console.log(last_5_students)
     const last_5_studentsMap = last_5_students.map(st =>{
-        return <ListItem>
+        return <ListItem key={`student-${st.id}`}>
             <Typography component={'h2'}>{st.firstName + " " + st.lastName}</Typography>
             <Typography component={'h3'}>{st.phone}</Typography>
         </ListItem>
@@ -43,11 +47,14 @@ export const Dashboard = () => {
                 </Card>   
     })
     return(
-        <Grid sx={{marginLeft: '11rem'}}>
-            {countsToCards}
-            <List>
-                {last_5_studentsMap}
-            </List>
-        </Grid>
+        <Container>
+            {userEmail?.role == 'Admin' &&
+            <>
+                {countsToCards}
+                <List>
+                    {last_5_studentsMap}
+                </List>
+            </>}
+        </Container>
     )
 }
