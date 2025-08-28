@@ -22,7 +22,8 @@ import {
   Fab,
   Container
 } from '@mui/material';
-import { ModeEdit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
+import { ModeEdit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material'
+import { AccessPage } from '../components/AccessPage'
 
 export const Students = () => {
     const {userEmail} = useContext(AuthContext)
@@ -178,7 +179,7 @@ export const Students = () => {
 
     return (
         <Container>
-            {userEmail?.role=='Admin' && 
+            {userEmail?.role=='Admin' ?
                 <>
                     <DataGrid
                         rows={rows}
@@ -272,7 +273,8 @@ export const Students = () => {
                     <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
                         <AddIcon />
                     </Fab>
-                </>
+                </> : 
+                    <AccessPage message={"You don't have access to this page."}/>
             }
         </Container>
   )

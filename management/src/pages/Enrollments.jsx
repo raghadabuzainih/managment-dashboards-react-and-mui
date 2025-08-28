@@ -24,6 +24,7 @@ import {
     DialogContent,
     DialogContentText
 } from '@mui/material'
+import { AccessPage } from '../components/AccessPage'
 
 export const Enrollments = () => {
     const {userEmail} = useContext(AuthContext)
@@ -160,7 +161,7 @@ export const Enrollments = () => {
     
     return(
         <Container>
-            {userEmail.role == 'Admin' && <>
+            {userEmail?.role == 'Admin' ? <>
                 <List>{enrollmentsMapToCards}</List>
                     {/* edit dialog form */}
                     <DialogForm
@@ -239,7 +240,9 @@ export const Enrollments = () => {
                     severity="success"
                     message="Enrollment deleted successfully"
                 />
-            </>}
+            </> : 
+                <AccessPage message={"You don't have access to this page."}/>
+            }
         </Container>
     )
 }

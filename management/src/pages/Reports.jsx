@@ -9,7 +9,7 @@ import {
     BarElement, 
     Title,
     Tooltip, 
-    Legend 
+    Legend
 } from 'chart.js';
 //every import will put in:
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
@@ -19,7 +19,8 @@ import {
   Card,
   CardContent,
   Container
-} from '@mui/material';
+} from '@mui/material'
+import { AccessPage } from '../components/AccessPage'
 
 export const Reports = () => {
     const {userEmail} = useContext(AuthContext)
@@ -89,7 +90,7 @@ export const Reports = () => {
 
     return(
         <Container>
-            {userEmail?.role == 'Admin' &&
+            {userEmail?.role == 'Admin' ?
             <>
                 {/* students/courses */}
                 <Card sx={{width: '50%'}}>
@@ -103,7 +104,9 @@ export const Reports = () => {
                         <Bar data={data2} options={options2} />
                     </CardContent>
                 </Card>
-            </>}
+            </> : 
+                <AccessPage message={"You don't have access to this page."}/>
+            }
         </Container>
     )
 

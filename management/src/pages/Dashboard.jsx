@@ -11,6 +11,7 @@ import {
   ListItem,
   Container
 } from '@mui/material';
+import { AccessPage } from '../components/AccessPage'
 
 export const Dashboard = () => {
     const {userEmail}= useContext(AuthContext)
@@ -48,13 +49,15 @@ export const Dashboard = () => {
     })
     return(
         <Container>
-            {userEmail?.role == 'Admin' &&
+            {userEmail?.role == 'Admin' ?
             <>
                 {countsToCards}
                 <List>
                     {last_5_studentsMap}
                 </List>
-            </>}
+            </> : 
+                <AccessPage message={"You don't have access to this page."}/>
+            }
         </Container>
     )
 }

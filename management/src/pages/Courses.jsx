@@ -21,7 +21,7 @@ import {
   Fab
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon, Add as AddIcon } from '@mui/icons-material';
-
+import { AccessPage } from '../components/AccessPage'
 
 export const Courses = () => {
     const {userEmail}= useContext(AuthContext)
@@ -140,7 +140,7 @@ export const Courses = () => {
 
     return(
         <Container>
-            {userEmail?.role== 'Admin' && 
+            {userEmail?.role== 'Admin' ?
             <>
                 {coursesInLists}
                 <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
@@ -222,7 +222,9 @@ export const Courses = () => {
                     severity="error"
                     message="Failed to add new course"
                 />
-            </>}
+            </> : 
+                <AccessPage message={"You don't have access to this page."}/>
+            }
         </Container>
     )
 }

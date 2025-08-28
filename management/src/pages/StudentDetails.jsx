@@ -10,6 +10,7 @@ import {
   Card,
   CardContent
 } from '@mui/material';
+import { AccessPage } from "../components/AccessPage"
 
 export const StudentDetails = () => {
     const {userEmail} = useContext(AuthContext)
@@ -26,7 +27,7 @@ export const StudentDetails = () => {
 
     return(
         <Container>
-            {userEmail?.role =='Admin' &&
+            {userEmail?.role =='Admin' ?
             <>
                 <Typography component={'h1'}>Personal Information:</Typography>
                 <Typography component={'h2'}>
@@ -49,7 +50,9 @@ export const StudentDetails = () => {
                         </CardContent>
                     </Card>
                 })}
-            </>}
+            </> : 
+                <AccessPage message={"You don't have access to this page."}/>
+            }
         </Container>
     )
 }

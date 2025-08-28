@@ -57,6 +57,7 @@ export const Login = () => {
                                 helperText={touched.email && errors.email}
                             />
                             <TextField 
+                                type='password'
                                 name='password' 
                                 label="Password" 
                                 variant="outlined"
