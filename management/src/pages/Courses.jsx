@@ -18,12 +18,13 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  Fab
+  Fab,
+  Box
 } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon, Add as AddIcon } from '@mui/icons-material';
 import { AccessPage } from '../components/AccessPage'
 
-export const Courses = () => {
+const Courses = () => {
     const {userEmail}= useContext(AuthContext)
     const [allCourses, setAllCourses] = React.useState(localStorage.getItem('courses') ?
                                                     JSON.parse(localStorage.getItem('courses')) : courses)
@@ -58,7 +59,7 @@ export const Courses = () => {
 
     //Regular Expressions for testing: 
     const numberRegExp = /^[0-9]+$/
-    const englishWithNumsAndSymbols = /^[A-Za-z0-9!@#$%^&*(),.?":{}/|<>_\-\s]+$/
+    const englishWithNumsAndSymbols = /^[A-Za-z0-9!@#$%^&*(),.?"':{}/|<>_\-\s]+$/
 
     const commonValidation = Yup.object({
         id: Yup.string()
@@ -96,21 +97,21 @@ export const Courses = () => {
         const instructor = users.find(({id})=> id == course.instructorId)
         const instructorFullName = instructor.firstName + " " + instructor.lastName
         return(
-            <Accordion>
+            <Accordion sx={{position:'relative',width:'42%', margin: '1%'}}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls={`course${index}-details`}
-                    id={`course${index}-header`}          
+                    id={`course${index}-header`}  
                 >
-                    <Typography component="span">{course.title}</Typography>
+                    <Typography component="span" fontWeight={'bold'}>{course.title}</Typography>
                 </AccordionSummary>
                 <AccordionDetails id={`course${index}-details`}>
-                    <Typography component="p">It's taught by: {instructorFullName}</Typography>
-                    <Typography component="p">Total hours: {course.hours}</Typography>
-                    <Typography component="p">Description: {course.description}</Typography>
+                    <Typography component={'span'} color='primary' fontWeight={'bold'}>Taught by:</Typography> {instructorFullName}<br/>
+                    <Typography component={'span'} color='primary' fontWeight={'bold'}>Total hours:</Typography> {course.hours}<br/>
+                    <Typography component={'span'} color='primary' fontWeight={'bold'}>Description:</Typography> {course.description}<br/>
                 </AccordionDetails>      
                 <AccordionActions>
-                    <Button onClick={()=> {
+                    <Button color='success' variant='contained' onClick={()=> {
                         //these two lines we will use it for edit dialog form
                         setCourseId(course.id)
                         setIsEditClicked(true)
@@ -118,7 +119,7 @@ export const Courses = () => {
                     >
                         Edit
                     </Button>
-                    <Button onClick={()=> {
+                    <Button color='error' variant='contained' onClick={()=> {
                         setCourseId(course.id)
                         setIsDeleteClicked(true)
                     }}
@@ -139,13 +140,21 @@ export const Courses = () => {
     }
 
     return(
-        <Container>
+        <Container style={{
+            display:'flex',
+            justifyContent:'center' , 
+            alignItems:'flex-start' ,
+            flexWrap:'wrap',
+            marginTop:'4.5%',
+        }}>
             {userEmail?.role== 'Admin' ?
             <>
                 {coursesInLists}
-                <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
-                    <AddIcon />
-                </Fab>
+                <Box sx={{position:'fixed', bottom:'3%', right:'2%'}}>
+                    <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
+                        <AddIcon />
+                    </Fab>
+                </Box>
                 {/* edit dialog form */}
                 <DialogForm
                     formTitle='Add New Course'
@@ -228,3 +237,4 @@ export const Courses = () => {
         </Container>
     )
 }
+export default Courses

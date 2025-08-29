@@ -5,9 +5,9 @@ import { Outlet } from "react-router-dom"
 
 export const AppBarAndDrawer= ({theme, updateTheme}) => {
     return <Box>
-        <AppBarComp  theme={theme} updateTheme={updateTheme}/>
+        <AppBarComp theme={theme} updateTheme={updateTheme}/>
         <DrawerComp />
-        <Box>
+        <Box marginTop={'3%'}>
             <Outlet />
         </Box>
     </Box>

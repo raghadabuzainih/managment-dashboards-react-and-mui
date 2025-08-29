@@ -9,7 +9,8 @@ import {
   Typography,
   Grid,
   TextField,
-  Button
+  Button,
+  Box
 } from '@mui/material';
 
 export const Login = () => {
@@ -41,36 +42,38 @@ export const Login = () => {
     }
 
     return(
-        <Container maxWidth="sm">
-            <Typography color='primary' variant='h4' fontWeight="fontWeightBold">Log in</Typography>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-                {({touched, errors, handleBlur, handleChange}) => (
-                    <Form>
-                        <Grid container spacing={2} direction={'column'}>
-                            <TextField 
-                                name='email' 
-                                label="Email" 
-                                variant="outlined"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={touched.email && Boolean(errors.email)}
-                                helperText={touched.email && errors.email}
-                            />
-                            <TextField 
-                                type='password'
-                                name='password' 
-                                label="Password" 
-                                variant="outlined"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={touched.password && Boolean(errors.password)}
-                                helperText={touched.password && errors.password}
-                            />
-                            <Button type='submit' variant='contained'>Submit</Button>
-                        </Grid>
-                    </Form>
-                )}
-            </Formik>
+        <Container maxWidth="xs" sx={{display:'grid', minHeight:'100vh', alignContent:'center'}}>
+            <Box padding={4} boxShadow={3} width={'100%'}>
+                <Typography color='primary' variant='h5' fontWeight="fontWeightBold" marginBottom={3}>Log in</Typography>
+                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                    {({touched, errors, handleBlur, handleChange}) => (
+                        <Form>
+                            <Grid container spacing={2} direction={'column'}>
+                                <TextField
+                                    name='email'
+                                    label="Email"
+                                    variant="outlined"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    error={touched.email && Boolean(errors.email)}
+                                    helperText={touched.email && errors.email}
+                                />
+                                <TextField
+                                    type='password'
+                                    name='password'
+                                    label="Password"
+                                    variant="outlined"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    error={touched.password && Boolean(errors.password)}
+                                    helperText={touched.password && errors.password}
+                                />
+                                <Button type='submit' variant='contained'>Submit</Button>
+                            </Grid>
+                        </Form>
+                    )}
+                </Formik>
+            </Box>
         </Container>
     )
 }

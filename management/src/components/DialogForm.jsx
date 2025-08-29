@@ -33,7 +33,12 @@ export const DialogForm = (
     }
 
     function addNewItem(values, errors){
+        for(let key of Object.keys(values)){
+            //if there is at least one item null
+            if(!values[key]) return
+        }
         setCondition(false)
+        //if all items filled but validation conditions not met
         if(Object.keys(errors).length > 0){
             setFailedAction(true)
             return
@@ -55,7 +60,14 @@ export const DialogForm = (
     }
 
     return (
-        <Dialog open={condition} onClose={()=> setCondition(false)}>
+        <Dialog 
+            sx={{
+                display: 'grid', 
+                textAlign:'center'
+            }} 
+            open={condition} 
+            onClose={()=> setCondition(false)}
+        >
             <DialogTitle>{formTitle}</DialogTitle>
             <DialogContent sx={{display: 'grid', gap: '2rem'}}>
                 <Formik
@@ -63,7 +75,13 @@ export const DialogForm = (
                     validationSchema={validationSchema}
                 >
                 {({values, touched, errors, handleBlur, handleChange}) => (
-                    <Form>
+                    <Form style={{
+                        marginTop: '1%' ,
+                        display: 'flex', 
+                        flexWrap:'wrap',
+                        gap:'1rem', 
+                        justifyContent: 'center',
+                    }}>
                         {Object.keys(initialValues).map(fieldName =>
                             //key={fieldName} becaues name of input or field is unique
                             <Grid key={`${arrayName}-${fieldName}-input`}>
@@ -71,8 +89,6 @@ export const DialogForm = (
                                     name={fieldName}
                                     label={fieldName}
                                     variant="outlined"
-                                    //to prevent make successful add with empty values
-                                    autoFocus={purpose == 'add'? true : false}
                                     //set value to dynamic value using values state from formik
                                     //becaues of we assign it to constant value we can't edit on it
                                     value={values[fieldName]}
@@ -83,9 +99,20 @@ export const DialogForm = (
                                 />
                             </Grid>
                         )}
-                        <DialogActions>
-                            <Button type='submit' onClick={()=> purpose == 'edit' ? saveEdit(values, errors) : addNewItem(values, errors)}>Save</Button>
-                            <Button onClick={()=> setCondition(false)}>Cancel</Button>
+                        <DialogActions sx={{display: 'block',width: '100%'}}>
+                            <Button 
+                                type='submit' 
+                                onClick={()=> 
+                                    purpose == 'edit' ? 
+                                    saveEdit(values, errors) : 
+                                    addNewItem(values, errors)
+                                }
+                                color='success'
+                                variant='contained'
+                            >
+                                    Save
+                            </Button>
+                            <Button color='error' variant='contained' onClick={()=> setCondition(false)}>Cancel</Button>
                         </DialogActions>
                     </Form>
                 )}

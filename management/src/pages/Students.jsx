@@ -24,8 +24,10 @@ import {
 } from '@mui/material';
 import { ModeEdit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material'
 import { AccessPage } from '../components/AccessPage'
+import { useNavigate } from 'react-router-dom'
 
-export const Students = () => {
+const Students = () => {
+    const navigate = useNavigate()
     const {userEmail} = useContext(AuthContext)
     const [students, setStudents] = 
         React.useState(localStorage.getItem('students') ?
@@ -58,11 +60,11 @@ export const Students = () => {
         {
             field: 'profileURL',
             headerName: 'Profile URL',
-            width: 160,
+            width: 180,
             renderCell: (params) => (
-                <Link to={params.value} target='_blank'>
+                <Button variant='contained' size='small' onClick={()=> navigate(params.value)}>
                     {params.value}
-                </Link>
+                </Button>
             )
         },
         {
@@ -146,10 +148,15 @@ export const Students = () => {
                .matches(phoneNumberRegExp, 'must begin with +970'),
         profileURL: Yup.string()
                     .required('enter profile URL')
-                    //contain english letters/-/_
+                    //contain english letters, - , _
                     .matches(/^[a-zA-Z0-9/_-]+$/, 'enter valid path')
+                    .test('pathPattern', 'enter like "/students/{id}"', function(value){
+                        const parent = this.parent
+                        value == '/students/' + parent['id']
+                    })
                     .test('uniquePath', 'enter unique path "/students/{id}"', (value)=>
-                    students.find(st => st.profileURL == value && st!= student)== undefined)
+                        students.find(st => st.profileURL == value && st!= student)== undefined
+                    )
     })
 
     const validationEditFormSchema = commonValidation
@@ -178,7 +185,7 @@ export const Students = () => {
     }
 
     return (
-        <Container>
+        <Container sx={{marginTop: '4.5%'}}>
             {userEmail?.role=='Admin' ?
                 <>
                     <DataGrid
@@ -270,12 +277,16 @@ export const Students = () => {
                         severity="error"
                         message="Failed to add new student"
                     />
-                    <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
-                        <AddIcon />
-                    </Fab>
+                    <Box sx={{position:'fixed', bottom:'3%', right:'2%'}}>
+                        <Fab color='primary' onClick={()=> setIsAddClicked(true)}>
+                            <AddIcon />
+                        </Fab>
+                    </Box>
                 </> : 
                     <AccessPage message={"You don't have access to this page."}/>
             }
         </Container>
   )
 }
+
+export default Students

@@ -1,4 +1,5 @@
-import {Bar} from 'react-chartjs-2' 
+import {Bar} from 'react-chartjs-2'
+import { Pie } from 'react-chartjs-2' 
 import courses from '../data/courses.json'
 import enrollments from '../data/enrollments.json'
 import users from '../data/users.json'
@@ -9,10 +10,11 @@ import {
     BarElement, 
     Title,
     Tooltip, 
-    Legend
+    Legend,
+    ArcElement
 } from 'chart.js';
 //every import will put in:
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend)
 import { AuthContext } from '../contexts/AuthContext'
 import { useContext } from 'react'
 import {
@@ -22,7 +24,7 @@ import {
 } from '@mui/material'
 import { AccessPage } from '../components/AccessPage'
 
-export const Reports = () => {
+const Reports = () => {
     const {userEmail} = useContext(AuthContext)
     let savedCourses = localStorage.getItem('courses') ? 
                         JSON.parse(localStorage.getItem('courses')) : courses
@@ -34,13 +36,16 @@ export const Reports = () => {
     let studentCountsPerCourse = coursesIDs.map(courseID => {
         return savedEnrollments.filter(({courseId}) => courseId == courseID).length
     })
+    const bgColors = coursesNames.map((x, index)=>{
+        return index%2==0 ? '#32a887ff' : '#324ea8ff'
+    })
     const data = {
         labels: coursesNames, //x-axis
         datasets: [ //y-axis
             {
                 label: 'Number of students',
                 data: studentCountsPerCourse,
-                backgroundColor: 'red'
+                backgroundColor: bgColors
             }
         ]
     }
@@ -68,20 +73,22 @@ export const Reports = () => {
     let coursesCountsPerInstructor = instructorsIDs.map(instructorID => {
         return savedCourses.filter(({instructorId}) => instructorId == instructorID).length
     })
+    const bgColors2 = instructorsNames.map(()=>{
+        return `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
+    })
     const data2 = {
         labels: instructorsNames,
         datasets: [{
             label: 'Number of courses',
             data: coursesCountsPerInstructor,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            backgroundColor: bgColors2
         }]
     }
 
     const options2 = {
         responsive: true,
         plugins: {
-            legend: { display: false },
-            title: { display: true, text: "Number of Courses per Instructor" }
+            title: { display: true, text: "Number of Courses per Instructor" },
         },
         scales: {
             y: { ticks: { stepSize: 1 } }
@@ -89,19 +96,19 @@ export const Reports = () => {
     }
 
     return(
-        <Container>
+        <Container sx={{display:'grid', gap:'3%', marginTop:'4.5%',marginBottom: '3%'}}>
             {userEmail?.role == 'Admin' ?
             <>
                 {/* students/courses */}
-                <Card sx={{width: '50%'}}>
-                    <CardContent>
+                <Card>
+                    <CardContent sx={{width:'80%', justifySelf:'center'}}>
                         <Bar data={data} options={options} />
                     </CardContent>
                 </Card>
                 {/* courses/instructors */}
-                <Card sx={{width: '50%', justifySelf: 'end'}}>
-                    <CardContent>
-                        <Bar data={data2} options={options2} />
+                <Card>
+                    <CardContent sx={{width:'60%', justifySelf:'center'}}>
+                        <Pie data={data2} options={options2} />
                     </CardContent>
                 </Card>
             </> : 
@@ -111,3 +118,4 @@ export const Reports = () => {
     )
 
 }
+export default Reports

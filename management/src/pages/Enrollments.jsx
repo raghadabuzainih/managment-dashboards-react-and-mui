@@ -22,11 +22,12 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText
+    DialogContentText,
+    Box
 } from '@mui/material'
 import { AccessPage } from '../components/AccessPage'
 
-export const Enrollments = () => {
+const Enrollments = () => {
     const {userEmail} = useContext(AuthContext)
     const [savedEnrollments, setSavedEnrollments] = 
         React.useState(localStorage.getItem('enrollments') ?
@@ -71,43 +72,57 @@ export const Enrollments = () => {
 
     let enrollmentsMapToCards = Array.from(enrollmentsMap.entries()).map(([courseName, enrollment]) => {
         return(
-            <ListItem key={`${courseName}-listItem`}>
-                <Card>
+            <ListItem sx={{width: '40%'}} key={`${courseName}-listItem`}>
+                <Card sx={{width: '100%'}}>
                     <CardContent>
-                        <Typography component={'h3'}>{courseName} Enrollments</Typography>
-                        <Grid display={'flex'} gap={2}>
-                            <Typography component={'h5'}>Students</Typography>
-                            <Typography component={'h5'}>Progress</Typography>
-                            <Typography component={'h5'}>Edit / UnEnroll</Typography>
+                        <Typography component={'h1'} variant='h6' fontWeight={'bold'}>{courseName} Enrollments</Typography>
+                        <Grid display={'flex'} marginBottom={'2%'} marginTop={'4%'}>
+                            <Typography flexGrow={1} component={'h5'} color='primary'>Students</Typography>
+                            <Typography flexGrow={1} component={'h5'} color='primary'>Progress</Typography>
+                            <Typography flexGrow={1} component={'h5'} color='primary'>Edit / UnEnroll</Typography>
                         </Grid>
-                        {enrollment.map(en => {
-                            return <Grid display={'flex'}>
-                                <Typography component={'p'}>{en.stName}</Typography>
-                                <Typography component={'p'}>{en.progress}</Typography>
-                                <CircularProgress size={'2rem'} variant='determinate' value={en.progress}/>
-                                <Chip 
-                                    label="Edit progress" 
-                                    onClick={()=> {
-                                        setEnrollmentId(en.id)
-                                        setIsEditClicked(true)
-                                    }} 
-                                    color='success'
-                                />
-                                {/* unEnroll -> delete */}
-                                <Chip 
-                                    label="UnEnroll" 
-                                    onClick={()=> {
-                                        setEnrollmentId(en.id)
-                                        setIsDeleteClicked(true)
-                                    }} 
-                                    color='error'
-                                />
-                            </Grid>
-                        })}
+                        <Box display={'grid'}>
+                            {enrollment.map(en => {
+                                return <Grid display={'flex'} gap={'1rem'} alignItems={'center'} justifyContent={'space-between'}>
+                                    <Typography flexGrow={1} component={'p'}>{en.stName}</Typography>
+                                    <Box position={'relative'} right={'12%'}>
+                                        <Typography
+                                            justifySelf={'center'}
+                                            position={'relative'}
+                                            top={'12px'}
+                                            component={'p'}
+                                        >
+                                            {en.progress}
+                                        </Typography>
+                                        <CircularProgress sx={{marginTop:'-1rem'}} size={'2rem'} variant='determinate' value={en.progress}/>
+                                    </Box>
+                                    <Box display={'flex'} gap={'2%'}>
+                                        <Chip
+                                            label="Edit progress"
+                                            onClick={()=> {
+                                                setEnrollmentId(en.id)
+                                                setIsEditClicked(true)
+                                            }}
+                                            color='success'
+                                        />
+                                        {/* unEnroll -> delete */}
+                                        <Chip
+                                            label="UnEnroll"
+                                            onClick={()=> {
+                                                setEnrollmentId(en.id)
+                                                setIsDeleteClicked(true)
+                                            }}
+                                            color='error'
+                                        />
+                                    </Box>
+                                </Grid>
+                            })}
+                        </Box>
                     </CardContent>
                     <CardActions>
                         <Button 
                             variant='contained'
+                            sx={{position:'relative',width:'100%'}}
                             onClick={()=> {
                                 setIsAddClicked(true)
                                 setCourseID(courses.find(course => course.title == courseName).id)
@@ -160,12 +175,12 @@ export const Enrollments = () => {
     }
     
     return(
-        <Container>
+        <Container sx={{display: 'grid', justifyContent:'center'}}>
             {userEmail?.role == 'Admin' ? <>
-                <List>{enrollmentsMapToCards}</List>
+                <List sx={{display: 'flex',justifyContent:'center' , flexWrap: 'wrap'}}>{enrollmentsMapToCards}</List>
                     {/* edit dialog form */}
                     <DialogForm
-                        formTitle='Edit Enrollment Info'
+                        formTitle={`Edit ${editedOrDeletedStudentName} progress`}
                         condition={isEditClicked}
                         setCondition= {setIsEditClicked}
                         initialValues={initialEditFormValues}
@@ -246,3 +261,4 @@ export const Enrollments = () => {
         </Container>
     )
 }
+export default Enrollments

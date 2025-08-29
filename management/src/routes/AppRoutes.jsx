@@ -2,26 +2,25 @@ import {Routes, Route} from 'react-router-dom'
 import { AppBarAndDrawer } from '../components/AppBarAndDrawer'
 import { Login } from '../pages/Login'
 import { Dashboard } from '../pages/Dashboard'
-import {Students} from '../pages/Students'
-import { StudentDetails } from '../pages/StudentDetails'
-import { Courses } from '../pages/Courses'
-import { Enrollments } from '../pages/Enrollments'
-import { Reports } from '../pages/Reports'
-import { Settings } from '../pages/Settings'
+import { lazy,Suspense } from 'react'
+const Students = lazy(()=> import('../pages/Students'))
+const StudentDetails = lazy(()=> import('../pages/StudentDetails'))
+const Courses = lazy(()=> import('../pages/Courses'))
+const Enrollments = lazy(()=> import('../pages/Enrollments'))
+const Reports = lazy(()=> import('../pages/Reports'))
 import { AccessPage } from '../components/AccessPage'
 
 export const AppRoutes = ({theme, updateTheme}) => {
     return(
         <Routes>
             <Route path='/' element={<AppBarAndDrawer theme={theme} updateTheme={updateTheme}/>}>
-                <Route index path='/login' element={<Login />}/>
-                <Route path='/' element={<Dashboard />}/>
-                <Route path='/students' element={<Students />}/>
-                <Route path='/students/:id' element={<StudentDetails />}/>
-                <Route path='/courses' element={<Courses />}/>
-                <Route path='/enrollments' element={<Enrollments />}/>
-                <Route path='/reports' element={<Reports />}/>
-                <Route path='/settings' element={<Settings />}/>
+                <Route path='/login' element={<Login />}/>
+                <Route index path='/' element={<Dashboard />}/>
+                <Route path='/students' element={<Suspense fallback={<p>Loading...</p>}><Students /></Suspense>}/>
+                <Route path='/students/:id' element={<Suspense fallback={<p>Loading...</p>}><StudentDetails /></Suspense>}/>
+                <Route path='/courses' element={<Suspense fallback={<p>Loading...</p>}><Courses /></Suspense>}/>
+                <Route path='/enrollments' element={<Suspense fallback={<p>Loading...</p>}><Enrollments /></Suspense>}/>
+                <Route path='/reports' element={<Suspense fallback={<p>Loading...</p>}><Reports /></Suspense>}/>
                 <Route path='*' element={<AccessPage message={'Page Not Found'}/>}/>
             </Route>
         </Routes>

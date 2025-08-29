@@ -15,35 +15,37 @@ export const AppBarComp = ({theme,updateTheme})=> {
     }
     return(
         <AppBar>
-            <Grid display={'flex'} justifyContent={'space-around'}>
+            <Grid display={'flex'} justifyContent={'space-around'} alignItems={'center'}>
                 <Typography component={'h1'}>Student Management System</Typography>
-                {
-                    userEmail?
-                    <Button color='error' 
-                        onClick={()=> {
-                            navigate('/login')
-                            logout()
-                        }}
-                    >
-                        Log Out
-                    </Button>
-                
-                    :
-                    <Button 
-                        color='error' 
-                        onClick={()=> navigate('/login')}
-                    >
-                        Log In
-                    </Button>
-                }
-                {
-                    <Button 
-                        color='error' 
-                        onClick={handleTheme}
+                <Grid direction={'row'}>
+                    {
+                        userEmail?
+                        <Button color='inherit'
+                            onClick={()=> {
+                                navigate('/login')
+                                logout()
+                            }}
                         >
-                            {theme == 'light' ? <DarkMode /> : <LightMode />}
+                            Log Out
                         </Button>
-                }
+                    
+                        :
+                        <Button
+                            color='inherit'
+                            onClick={()=> navigate('/login')}
+                        >
+                            Log In
+                        </Button>
+                    }
+                    {
+                        <Button
+                            color='warning'
+                            onClick={handleTheme}
+                            >
+                                {theme == 'light' ? <DarkMode color='action'/> : <LightMode />}
+                            </Button>
+                    }
+                </Grid>
             </Grid>
         </AppBar>
     )

@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { AccessPage } from "../components/AccessPage"
 
-export const StudentDetails = () => {
+const StudentDetails = () => {
     const {userEmail} = useContext(AuthContext)
     const students = localStorage.getItem('students') ?
         JSON.parse(localStorage.getItem('students')) : 
@@ -22,7 +22,7 @@ export const StudentDetails = () => {
     const savedCourses = localStorage.getItem('courses') ?
         JSON.parse(localStorage.getItem('courses')) : courses
     const {id} = useParams()
-    const student = students.find(({id})=> id == id)
+    const student = students.find(st=> st.id == id)
     const studentEnrollments = savedEnrollments.filter(({studentId})=> studentId == id)
 
     return(
@@ -56,3 +56,4 @@ export const StudentDetails = () => {
         </Container>
     )
 }
+export default StudentDetails
